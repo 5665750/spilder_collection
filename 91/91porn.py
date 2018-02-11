@@ -21,7 +21,7 @@ uas = [
 ]
 baseUrl = 'http://93.91p12.space/v.php'
 pages = 0
-
+proxies={"http":'http://127.0.0.1:1091',"https":'https://127.0.0.1:1091'}
 
 # 初始化sqlite3 数据库
 def initDb():
@@ -48,7 +48,7 @@ def getContent(url, stream=False):
         s = requests.Session()
         retries = Retry(total=5, backoff_factor=10, status_forcelist=[500, 502, 503, 504])
         s.mount('http://', HTTPAdapter(max_retries=retries))
-        response = s.get(url, headers=setHeader(), stream=stream);
+        response = s.get(url, headers=setHeader(), stream=stream,proxies=proxies);
         response.encoding = response.apparent_encoding
         if (response.status_code == 200):
             return response

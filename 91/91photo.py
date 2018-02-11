@@ -65,7 +65,7 @@ class Worker(Thread):
                         os.mkdir(path)
                     pageNum = self.getPage(bs)
                     self.parseBbsPage(bbsurl, path)
-                    for i in range(2, pageNum):
+                    for i in range(2, pageNum+1):
                         self.parseBbsPage(bbsurl + '&page' + str(i), path)
                 except Exception as e:
                     print("抓取失败{0},reason={1}".format(content.url, e))
@@ -84,14 +84,14 @@ class Worker(Thread):
                             url = BBS__URL.format(src)
                             self.downImg(url, os.path.join(path, src.split('/')[-1]))
 
-    def downImg(self, url, targer_file):
+    def downImg(self, url, target_file):
         print("开始下载文件,地址为{0}".format(url))
-        if os.path.isfile(targer_file):
+        if os.path.isfile(target_file):
             print("文件已存在,本次不下载")
             return
         response=request(url)
         if response:
-            with open(targer_file, 'wb') as f:
+            with open(target_file, 'wb') as f:
                 f.write(response.content)
 
     def getPage(self, bs):
@@ -124,7 +124,7 @@ def parsePages(url):
         pageNum=getPage(bs)
         print("MAIN=》开始解析帖子列表当前板块id={0},总页数{1}".format(url, pageNum))
         if (pageNum > 2):
-            for i in range(2, pageNum):
+            for i in range(2, pageNum+1):
                 addUrlToQueue(url + '&page=' + str(i))
 
 
