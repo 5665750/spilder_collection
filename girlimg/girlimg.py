@@ -47,7 +47,7 @@ def getTotalSize():
 def doDownLoad(imageurl, name, tag=""):
     flag = -1
     print("开始下载文件{0},标签{1}".format(name, tag))
-    target_file = os.path.join(TARGET_FOLDER, name+".jpg")
+    target_file = os.path.join(TARGET_FOLDER, name)
     if(os.path.isfile(target_file)):
         return
     response = doGetRequest(imageurl)
@@ -92,6 +92,6 @@ if __name__ == '__main__':
     if (TOTAL_COUNT > 0):
         # 容易挂 用单线程
         page = int(TOTAL_COUNT / PAGE_SIZE)
-        for i in range(1, page + 1):
+        for i in range(0, page + 1):
             doParseWork(i)
             pass
