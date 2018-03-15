@@ -22,9 +22,9 @@ def initDb():
                        "url TEXT,img_name TEXT,tag TEXT,flag INTEGER DEFAULT 0)")
 
 
-def doGetRequest(url, stream=False):
+def doGetRequest(url, stream=False,timeout=10):
     try:
-        response = requests.get(url, stream=stream, headers=header)
+        response = requests.get(url, stream=stream, headers=header,timeout=timeout)
         response.encoding = 'UTF-8'
         if (response.status_code == 200 and response):
             return response;
@@ -56,7 +56,7 @@ def doDownLoad(imageurl, name, tag=""):
         with open(target_file, 'wb') as f:
             f.write(response.content)
         flag = 1
-
+    print("下载文件结束flag={0}".format(tag))
     connection.execute(
         "insert into imgs(url,img_name,tag,flag)  VALUEs ('{0}','{1}','{2}',{3});".format(imageurl, name, tag, flag))
     pass
